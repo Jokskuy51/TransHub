@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualisasi Data - TRANSHUB</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/icon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f0f9ff; /* sky-50 */
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #0d1b2a;
+        color: white;
+      }
+
+      .navbar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between; /* brand kiri, menu kanan */
+        align-items: center; /* rata vertikal */
+        padding: 1rem;
+        height: 65px;
+      }
+
+      /* brand: ikon + teks */
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem; /* jarak ikon & teks */
+      }
+
+      .brand img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .brand span {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #ffffff;
+      }
+
+      /* menu navigasi */
+      .menu a {
+        color: white;
+        text-decoration: none;
+        margin-left: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .menu a:hover {
+        color: #f97316;
+      }
+
+      /* Section */
+      section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+      }
+      section h2 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #0d1b2a;
+        margin-bottom: 2rem;
+      }
+
+      /* Top navigation buttons */
+      .container img {
+        width: 32px; /* ukuran ikon */
+        height: 32px;
+      }
+      .container span {
+        margin-right: 150px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #ffffff;
+      }
+      .nav-bar {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+        margin-bottom: 2rem;
+      }
+
+      .nav-bar ul {
+        list-style: none;
+        padding: 0.75rem 1rem;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 0;
+      }
+      .nav-bar button {
+        padding: 0.5rem 1rem;
+        border: none;
+        background: transparent;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        color: #0d1b2a;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        font-size: 15px;
+      }
+      .nav-bar button:hover {
+        background-color: #bae6fd; /* sky-200 */
+      }
+      .nav-bar button.active {
+        background-color: #bae6fd;
+        font-weight: bold;
+      }
+
+      /* Dashboard container */
+      .dashboard-container {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        position: relative;
+        height: 600px;
+        width: 100%;
+      }
+      .slide {
+        display: none;
+        width: 100%;
+        height: 100%;
+      }
+      .slide.active {
+        display: block;
+        align-items: center;
+      }
+      .tableauPlaceholder1 {
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        margin-left: 25%;
+      }
+      .tableauPlaceholder {
+        width: 100%;
+        height: 100%;
+        align-items: center;
+      }
+      .tableauPlaceholder object {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="navbar-container">
+        <!-- Brand: ikon + judul -->
+        <div class="brand">
+          <img src="images/icon.png" alt="Ikon Transportasi" />
+          <span>TRANSHUB</span>
+        </div>
+
+        <!-- Menu navigasi -->
+        <nav class="menu">
+          <a href="index.html">Home</a>
+          <a href="index.html">Informasi</a>
+          <a href="visualisasi.html">Visualisasi Data</a>
+          <a href="index.html">Tentang Kami</a>
+          <a href="index.html">Kontak</a>
+        </nav>
+      </div>
+    </header>
+
+    <section>
+      <h2>Visualisasi Data Penggunaan Transportasi Umum Di Jakarta</h2>
+
+      <!-- Top Navigation -->
+      <nav class="nav-bar">
+        <ul>
+          <li>
+            <button class="nav-btn active" data-slide="0">
+              Dashboard Utama
+            </button>
+          </li>
+          <li><button class="nav-btn" data-slide="1">TransJakarta</button></li>
+          <li><button class="nav-btn" data-slide="2">Bus Sekolah</button></li>
+          <li><button class="nav-btn" data-slide="3">MRT</button></li>
+          <li><button class="nav-btn" data-slide="4">LRT</button></li>
+          <li><button class="nav-btn" data-slide="5">KRL</button></li>
+          <li><button class="nav-btn" data-slide="6">KCI Commuter</button></li>
+          <li><button class="nav-btn" data-slide="7">Kapal</button></li>
+        </ul>
+      </nav>
+
+      <!-- Dashboard Container -->
+      <div class="dashboard-container">
+        <!-- Slide 1 -->
+        <div class="slide active" data-index="0">
+          <div class="tableauPlaceholder1" id="viz1">
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="Book2_17585298366320/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+            </object>
+          </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="slide" data-index="1">
+          <div class="tableauPlaceholder" id="viz2">
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="Transjakarja/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+            </object>
+          </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="slide" data-index="2">
+          <div class="tableauPlaceholder" id="viz2">
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="BusSekolah/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+            </object>
+          </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide" data-index="3">
+          <div class="tableauPlaceholder" id="viz3">
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="MRT_17582704482160&#47;Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+            </object>
+          </div>
+        </div>
+        <!-- Slide 5 -->
+        <div class="slide" data-index="4">
+          <div class="tableauPlaceholder" id="viz3">
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="LRT_17582705861220/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+            </object>
+          </div>
+        </div>
+        <!-- Slide 6 -->
+        <div class="slide" data-index="5">
+          <div class="tableauPlaceholder" id="viz3">
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="KRL_17582707335020/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+            </object>
+          </div>
+        </div>
+        <!-- Slide 7 -->
+        <div class="slide" data-index="6">
+          <div class="tableauPlaceholder" id="viz3">
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="KCICommuterBandara/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+            </object>
+          </div>
+        </div>
+        <!-- Slide 8 -->
+        <div class="slide" data-index="7">
+          <div class="tableauPlaceholder" id="viz3">
+            <object class="tableauViz" style="display: none">
+              <param
+                name="host_url"
+                value="https%3A%2F%2Fpublic.tableau.com%2F"
+              />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="kapal/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+            </object>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://public.tableau.com/javascripts/api/viz_v1.js"></script>
+    <script>
+      const slides = document.querySelectorAll(".slide");
+      const navButtons = document.querySelectorAll(".nav-btn");
+
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === index);
+        });
+        navButtons.forEach((btn, i) => {
+          btn.classList.toggle("active", i === index);
+        });
+      }
+
+      navButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const index = parseInt(btn.getAttribute("data-slide"));
+          showSlide(index);
+        });
+      });
+    </script>
+  </body>
+</html>
